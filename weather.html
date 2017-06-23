@@ -69,12 +69,27 @@
     <script type="text/javascript">
     $(document).ready(function() {
       var latitude;
-      var longtitude;
+      var longitude;
+      var api;
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
-            $("#cityName").html("latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude);
-            });
-      } else {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            api = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=21586e76504245c091250ae9a71ce650";
+            console.log(latitude);
+            console.log(longitude);
+            console.log(api);
+            function localWeather() {
+              $.getJSON(api, function(response) {
+                console.log(response);
+                $("#cityName").html("Data get." + response.name);
+              });
+            }
+            localWeather();
+
+      });
+    }
+       else {
         $("#cityName").html("Sorry, your location cannot be detected. Please try again.");
       }
     });
