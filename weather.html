@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,11 +9,43 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style type="text/css">
-
+    #main {
+      width: 40%;
+    }
+    #title {
+      margin-top: 200px;
+    }
+    #checkWeather {
+      margin-top: 50px;
+    }
     </style>
   </head>
   <body>
-
+    <div class="container" id="main">
+    <div class="container text-center" id="title">
+      <h1>The ultimate weather app</h1>
+      <small>Created by Bei Wang</small>
+      <h2>You are currently in</h2>
+      <p>Brisbane</p>
+    </div>
+    <div class="container">
+      <p>The current weather</p>
+      <p></p>
+    </div>
+    <div class="container" id="temp">
+      <p>Current tempature is<p>
+        <p></p>
+    </div>
+    <div class="container" id="checkWeather">
+      <h2>Want to check weather for another location?</h2>
+      <form>
+         <div class="form-group">
+         <label for="cityInput">Enter a city name below</label>
+         <input type="text" class="form-control" id="cityInput" placeholder="E.g. Brisbane, London">
+         </div>
+      </form>
+    </div>
+  </div>
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
