@@ -41,7 +41,7 @@
       <p class="text-muted font-weight-bold pull-right">Created by Bei Wang</p>
       <br><br>
       <h2>You are currently in<br>
-      <small class="text-info">Brisbane</small></h2>
+      <small class="text-info" id="cityName"></small></h2>
     </div>
     <div class="container" id="weather">
       <p></p>
@@ -67,6 +67,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script type="text/javascript">
+    $(document).ready(function() {
+      var latitude;
+      var longtitude;
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            $("#cityName").html("latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude);
+            });
+      } else {
+        $("#cityName").html("Sorry, your location cannot be detected. Please try again.");
+      }
+    });
 
     </script>
 
