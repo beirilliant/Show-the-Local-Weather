@@ -29,6 +29,9 @@
     #checkWeather {
       margin-top: 50px;
     }
+    #degF {
+      display: none;
+    }
     </style>
   </head>
   <body>
@@ -43,7 +46,8 @@
     <div class="container" id="weather">
     </div>
     <div class="container" id="button">
-      <label class="btn btn-primary pull-right">Toggle Button</label>
+      <label class="btn btn-primary pull-right toggleButton" id=degC>&degC</label>
+      <label class="btn btn-primary pull-right toggleButton" id=degF>&degF</label>
     </div>
     <div class="container" id="checkWeather">
       <h2>Want to check weather for another location?</h2>
@@ -88,6 +92,13 @@
        else {
         $("#cityName").html("Sorry, your location cannot be detected. Please try again.");
       }
+      $(".toggleButton").click(function() {
+        $("#degC").toggle();
+        $("#degF").toggle();
+
+      });
+
+
     });
 
     </script>
