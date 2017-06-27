@@ -93,7 +93,7 @@
                 console.log(response);
                 tempF = Math.round(response.main.temp * 9/5 - 459.67);
                 tempC = Math.round(response.main.temp - 273.15);
-                $("#cityName").html(response.name + ", " + response.sys.country);
+                $("#cityName").html(response.name + ", " + response.sys.country + " <image src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png'>");
                 $("#weatherF").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempF + " &degF</div>");
                 $("#weatherC").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempC + " &degC</div>");
               });
