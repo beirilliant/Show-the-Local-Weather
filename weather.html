@@ -23,43 +23,52 @@
       width: 40%;
       margin-top: 40px;
     }
-    #weather {
-      height: 130px;
+    .weather {
+      height: 150px;
+      padding: 5px;
     }
     #checkWeather {
       margin-top: 50px;
     }
-    #degF {
+    #showWeatherF {
       display: none;
     }
     </style>
   </head>
   <body>
     <div class="container text-center" id="main">
-    <div class="container" id="title">
-      <h1>The Ultimate Weather App</h1><br>
-      <p class="text-muted font-weight-bold pull-right">Created by Bei Wang</p>
-      <br><br>
-      <h2>You are currently in<br>
-      <small class="text-info" id="cityName"></small></h2>
-    </div>
-    <div class="container" id="weather">
-    </div>
-    <div class="container" id="button">
-      <label class="btn btn-primary pull-right toggleButton" id=degC>&degC</label>
-      <label class="btn btn-primary pull-right toggleButton" id=degF>&degF</label>
-    </div>
-    <div class="container" id="checkWeather">
-      <h2>Want to check weather for another location?</h2>
-      <form>
+      <div class="container">
+        <h1>The Ultimate Weather App</h1><br>
+        <p class="text-muted font-weight-bold pull-right">Created by Bei Wang</p>
+        <br><br>
+        <h2>You are currently in<br>
+        <small class="text-info" id="cityName"></small></h2>
+      </div>
+      <div class="containter weather" id="showWeatherF">
+       <div class="container" id="weatherF">
+       </div>
+       <div class="container">
+         <label class="btn btn-primary pull-right toggleButton">&degC</label>
+       </div>
+     </div>
+     <div class="container weather" id="showWeatherC">
+       <div class="container" id="weatherC">
+       </div>
+       <div class="container">
+       <label class="btn btn-primary pull-right toggleButton">&degF</label>
+       </div>
+     </div>
+     <div class="container" id="checkWeather">
+       <h2>Want to check weather for another location?</h2>
+       <form>
          <div class="form-group">
          <label for="cityInput">Enter a city name below</label>
          <input type="text" class="form-control" id="cityInput" placeholder="E.g. Brisbane, London">
          </div>
          <button type="submit" class="btn btn-primary">Submit</button>
       </form>
-    </div>
-  </div>
+     </div>
+   </div>
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -70,6 +79,8 @@
       var latitude;
       var longitude;
       var api;
+      var tempF;
+      var tempC;
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             latitude = position.coords.latitude;
@@ -81,8 +92,11 @@
             function localWeather() {
               $.getJSON(api, function(response) {
                 console.log(response);
+                tempF = Math.floor(response.main.temp);
+                tempC = tempF - 273;
                 $("#cityName").html(response.name + ", " + response.sys.country);
-                $("#weather").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>: " + response.main.temp + " &degF</div>");
+                $("#weatherF").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempF + " &degF</div>");
+                $("#weatherC").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempC + " &degC</div>");
               });
             }
             localWeather();
@@ -92,12 +106,11 @@
        else {
         $("#cityName").html("Sorry, your location cannot be detected. Please try again.");
       }
-      $(".toggleButton").click(function() {
-        $("#degC").toggle();
-        $("#degF").toggle();
+       $(".toggleButton").click(function() {
+          $("#showWeatherF").toggle();
+          $("#showWeatherC").toggle();
 
-      });
-
+       });
 
     });
 
