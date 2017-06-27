@@ -24,7 +24,6 @@
       margin-top: 40px;
     }
     .weather {
-      height: 150px;
       padding: 5px;
     }
     #checkWeather {
@@ -41,8 +40,7 @@
         <h1>The Ultimate Weather App</h1><br>
         <p class="text-muted font-weight-bold pull-right">Created by Bei Wang</p>
         <br><br>
-        <h2>You are currently in<br>
-        <small class="text-info" id="cityName"></small></h2>
+        <h2 class="text-info font-weight-bold" id="cityName">Location Loading...</h2>
       </div>
       <div class="containter weather" id="showWeatherF">
        <div class="container" id="weatherF">
@@ -65,7 +63,7 @@
          <label for="cityInput">Enter a city name below</label>
          <input type="text" class="form-control" id="cityInput" placeholder="E.g. Brisbane, London">
          </div>
-         <button type="submit" class="btn btn-primary">Submit</button>
+         <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
       </form>
      </div>
    </div>
@@ -81,6 +79,7 @@
       var api;
       var tempF;
       var tempC;
+      var city;
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             latitude = position.coords.latitude;
@@ -92,29 +91,48 @@
             function localWeather() {
               $.getJSON(api, function(response) {
                 console.log(response);
-                tempF = Math.floor(response.main.temp);
-                tempC = tempF - 273;
+                tempF = Math.round(response.main.temp * 9/5 - 459.67);
+                tempC = Math.round(response.main.temp - 273.15);
                 $("#cityName").html(response.name + ", " + response.sys.country);
                 $("#weatherF").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempF + " &degF</div>");
                 $("#weatherC").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempC + " &degC</div>");
               });
             }
             localWeather();
-
       });
-    }
-       else {
+    } else {
         $("#cityName").html("Sorry, your location cannot be detected. Please try again.");
       }
+
        $(".toggleButton").click(function() {
           $("#showWeatherF").toggle();
           $("#showWeatherC").toggle();
-
        });
-
-    });
+       $("#submitButton").click(function() {
+             city = encodeURI($("#cityInput").val());
+             api = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=21586e76504245c091250ae9a71ce650";
+             console.log(api);
+             function getWeather() {
+               $.getJSON(api, function(response) {
+                 if (response.cod == 200) {
+                 console.log(response);
+                 tempF = Math.round(response.main.temp * 9/5 - 459.67);
+                 tempC = Math.round(response.main.temp - 273.15);
+                 $("#cityName").html(response.name + ", " + response.sys.country);
+                 $("#weatherF").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempF + " &degF</div>");
+                 $("#weatherC").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempC + " &degC</div>");
+                 } else {
+                   $("#cityName").html("The city you entered cannot be found!");
+                   $("#weatherF").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered</div>");
+                   $("#weatherC").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered</div>");
+                 }
+              });
+            }
+            getWeather();
+            return false;
+     });
+  });
 
     </script>
-
   </body>
 </html>
