@@ -22,6 +22,13 @@
     #main {
       width: 40%;
       margin-top: 40px;
+      padding-top: 30px;
+      border: 1px solid #CD6702;
+      background-color: white;
+      height: 600px;
+    }
+    #cityName {
+      border: 1px solid #CD6702;
     }
     .weather {
       padding: 5px;
@@ -35,12 +42,12 @@
     </style>
   </head>
   <body>
-    <div class="container text-center" id="main">
+    <div class="container text-center rounded" id="main">
       <div class="container">
-        <h1>The Ultimate Weather App</h1><br>
-        <p class="text-muted font-weight-bold pull-right">Created by Bei Wang</p>
-        <br><br>
-        <h2 class="text-info font-weight-bold" id="cityName">Location Loading...</h2>
+        <h1>Beirilliant Weather<br>
+        <span class="small text-muted pull-right">By Bei Wang</span><h1>
+        <br>
+        <h2 class="text-info font-weight-bold rounded" id="cityName">Location/weather loading...</h2>
       </div>
       <div class="containter weather" id="showWeatherF">
        <div class="container" id="weatherF">
@@ -57,11 +64,9 @@
        </div>
      </div>
      <div class="container" id="checkWeather">
-       <h2>Want to check weather for another location?</h2>
        <form>
          <div class="form-group">
-         <label for="cityInput">Enter a city name below</label>
-         <input type="text" class="form-control" id="cityInput" placeholder="E.g. Brisbane, London">
+         <input type="text" class="form-control" id="cityInput" placeholder="Enter a city name, e.g. Brisbane, London to search weather">
          </div>
          <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
       </form>
@@ -118,7 +123,7 @@
                  console.log(response);
                  tempF = Math.round(response.main.temp * 9/5 - 459.67);
                  tempC = Math.round(response.main.temp - 273.15);
-                 $("#cityName").html(response.name + ", " + response.sys.country);
+                 $("#cityName").html(response.name + ", " + response.sys.country + " <image src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png'>");
                  $("#weatherF").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempF + " &degF</div>");
                  $("#weatherC").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempC + " &degC</div>");
                  } else {
