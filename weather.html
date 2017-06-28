@@ -104,9 +104,10 @@
               });
             }
             localWeather();
+            return false;
       });
     } else {
-        $("#cityName").html("Sorry, your brower does not support geolocation. Please enter a city name to search weather");
+        $("#cityName").html("Seems your brower does not support geolocation. Please enter a city name to search weather.");
       }
 
        $(".toggleButton").click(function() {
@@ -118,24 +119,24 @@
              city = encodeURI($("#cityInput").val());
              api = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=21586e76504245c091250ae9a71ce650";
              console.log(api);
-             function getWeather() {
-               $.getJSON(api, function(response) {
-                 if (response.cod == 200) {
-                 console.log(response);
+             $.getJSON(api, function(response) {
+               console.log(response);
+               if (response.cod == 200 && response.name.toLowerCase() == $("#cityInput").val().toLowerCase()) {
+                 function getWeather() {
                  tempF = Math.round(response.main.temp * 9/5 - 459.67);
                  tempC = Math.round(response.main.temp - 273.15);
                  $("#cityName").html(response.name + ", " + response.sys.country + " <image src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png'>");
                  $("#weatherF").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempF + " &degF</div>");
                  $("#weatherC").html("<div class='alert alert-success' role='alert'><strong>Weather</strong>: " + response.weather[0].description + "<br><strong>Humidity</strong>: " + response.main.humidity + "%<br><strong>Wind speed</strong>: " + response.wind.speed + " m/s<br><strong>Temperature</strong>:   " + tempC + " &degC</div>");
-                 } else {
+                 }
+                 getWeather();
+               } else {
                    $("#cityName").html("The city you entered cannot be found!");
-                   $("#weatherF").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered</div>");
-                   $("#weatherC").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered</div>");
+                   $("#weatherF").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered!</div>");
+                   $("#weatherC").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered!</div>");
                  }
               });
-            }
-            getWeather();
-            return false;
+              return false;
           } else {
             $("#cityName").html("Please enter a city name first");
             $("#weatherF").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered</div>");
