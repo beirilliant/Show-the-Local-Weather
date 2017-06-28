@@ -106,7 +106,7 @@
             localWeather();
       });
     } else {
-        $("#cityName").html("Sorry, your location cannot be detected. Please try again.");
+        $("#cityName").html("Sorry, your brower does not support geolocation. Please enter a city name to search weather");
       }
 
        $(".toggleButton").click(function() {
@@ -114,6 +114,7 @@
           $("#showWeatherC").toggle();
        });
        $("#submitButton").click(function() {
+         if ($("#cityInput").val()) {
              city = encodeURI($("#cityInput").val());
              api = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=21586e76504245c091250ae9a71ce650";
              console.log(api);
@@ -135,6 +136,12 @@
             }
             getWeather();
             return false;
+          } else {
+            $("#cityName").html("Please enter a city name first");
+            $("#weatherF").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered</div>");
+            $("#weatherC").html("<div class='alert alert-danger' role='alert'>No data available for the city you entered</div>");
+            return false;
+          }
      });
   });
 
